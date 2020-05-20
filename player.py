@@ -10,15 +10,20 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.IMG.get_rect()
         self.rect.x = 64
         self.rect.y = 832
+        self.pressed = {}
 
-    def move_right(self):
-        self.rect.x += 64
+    def move_right(self,map):
+        if map[round(self.rect.y/64)][round((self.rect.x+64)/64)] != 'x':
+            self.rect.x += 64
 
-    def move_left(self):
-        self.rect.x -= 64
+    def move_left(self,map):
+        if map[round(self.rect.y / 64)][round((self.rect.x - 64) / 64)] != 'x':
+            self.rect.x -= 64
 
-    def move_up(self):
-        self.rect.y -= 64
+    def move_up(self,map):
+        if map[round((self.rect.y - 64 )/ 64)][round(self.rect.x/ 64)] != 'x' and map[round(self.rect.y/64)][round(self.rect.x/64)] == '#':
+            self.rect.y -= 64
 
-    def move_down(self):
-        self.rect.y += 64
+    def move_down(self,map):
+        if map[round((self.rect.y + 64 )/ 64)][round(self.rect.x/ 64)] != 'x':
+            self.rect.y += 64

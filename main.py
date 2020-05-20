@@ -5,31 +5,39 @@ import os
 import time
 from functions import *
 from player import Player
+from images import *
 
 pygame.init()
 pygame.font.init()
 
-def menu():
-    inMenu = True
-    while inMenu:
-        window.blit()
+window = pygame.display.set_mode((1280, 960))
 
 def main():
 
-    window = pygame.display.set_mode((1280, 960))
+    inMenu = True
+
+    while inMenu:
+        window.blit(menu,(0,0))
+        window.blit(logo,(256,-40))
+        window.blit(start,(543,700))
+        pygame.display.update()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+            elif event.type == pygame.MOUSEBUTTONUP:
+                pos = pygame.mouse.get_pos()
+                if pos[0] >= 543 and pos[0] <= 738 and pos[1] >= 700 and pos[1] <= 895:
+                    inMenu = False
 
     player = Player()
-
-    background = pygame.image.load("assets/brick-wall.jpg")
-    brick_x = pygame.image.load("assets/brick_x.jpg")
-    brick_o = pygame.image.load("assets/brick_o.png")
-    ladder = pygame.image.load("assets/construction.png")
 
     window.blit(background,(0,0))
 
     map = loadMap("map.txt")
 
     drawMap(map, window, brick_o, brick_x,ladder)
+
+    i = 0
 
     while True:
 
@@ -39,8 +47,13 @@ def main():
 
         pygame.display.update()
 
-        if(map[round((player.rect.y + 64 )/ 64)][round(player.rect.x/ 64)]) == 'o':
+        if(map[round((player.rect.y + 64 )/ 64)][round(player.rect.x/ 64)]) == 'o' and (i == 0 or i%10 == 0):
+            i+=1
             player.move_down(map)
+        elif (map[round((player.rect.y + 64 )/ 64)][round(player.rect.x/ 64)]) == 'o':
+            i+=1
+        else:
+            i = 0
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -55,6 +68,8 @@ def main():
                     player.move_down(map)
                 elif event.key == pygame.K_UP:
                     player.move_up(map)
+
+
 
 if __name__ == "__main__":
     main()

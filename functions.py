@@ -20,6 +20,7 @@ def drawMap(file,window,brick_o,brick_x,ladder):
             if map[i][j] == 'x':
                 window.blit(brick_x,(j*64,i*64))
             elif map[i][j] == 'o':
-                window.blit(brick_o,(j * 64, i * 64))
+                pass
+                #window.blit(brick_o,(j * 64, i * 64))
             elif map[i][j] == '#':
                 window.blit(ladder, (j * 64, i * 64))

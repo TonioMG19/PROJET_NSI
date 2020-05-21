@@ -18,6 +18,7 @@ def main():
 
     inMenu = True
     inIntro = False
+    has_enter = False
 
 
     player = Player()
@@ -57,6 +58,9 @@ def main():
             drawMap(map, window, brick_o, brick_x, ladder, door)
             window.blit(player.IMG, player.rect)
 
+            if has_enter:
+                window.blit(won, (256, 234))
+
             pygame.display.update()
 
             if(map[round((player.rect.y + 64) / 64)][round(player.rect.x/ 64)]) == 'o' and (i == 0 or i % 5 == 0) and (map[round((player.rect.y)/ 64)][round(player.rect.x/ 64)]) != '#':
@@ -80,11 +84,18 @@ def main():
                         player.move_down(map)
                     elif event.key == pygame.K_UP or event.key == pygame.K_z:
                         player.move_up(map)
+                    elif event.key == pygame.K_INSERT:
+                        player.rect.y = 128
+                        player.rect.x = 256
                     elif event.key == pygame.K_RETURN and map[round(player.rect.y / 64)][round(player.rect.x/ 64)] == 'p':
                         if inIntro:
-                            inIntro = False
-                            inMenu = True
-                            player.reset_place()
+                            if has_enter:
+                                inIntro = False
+                                inMenu = True
+                                player.reset_place()
+                                has_enter = False
+                            else:
+                                has_enter = True
 
 
 

@@ -11,5 +11,5 @@ xoo#ooooxxxoxxxxxx#x
 xoo#oooooooooooooo#x
 xoo#oooooooooooooo#x
 xoxxxxxxxxxxxxoooo#x
-xooooooooooooooooo#x
+xooooooooooooooooo#o
 xxxxxxxxxxxxxxxxxxxx

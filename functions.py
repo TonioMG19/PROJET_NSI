@@ -1,10 +1,7 @@
 import pygame
 
-file = "map.txt"
-
-myListe = []
-
 def loadMap(file):
+    myListe = []
     with open(file,"r") as map:
         for i in map:
             i = i.replace('\n','')

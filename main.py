@@ -30,11 +30,9 @@ def main():
     window.blit(background,(0,0))
 
     mapIntro = loadMap("mapIntro.txt")
-    map1 = []
-    map2 = []
-    map3 = []
-
-    drawMap(map, window, brick_o, brick_x, ladder, door)
+    map1 = loadMap("map1.txt")
+    map2 = loadMap("map2.txt")
+    map3 = loadMap("map3.txt")
 
     i = 0
 
@@ -87,12 +85,16 @@ def main():
 
             if inIntro:
                 pygame.display.set_caption("Escape the tower - Introduction")
-            elif inMap1:
+                map = mapIntro
+            if inMap1:
                 pygame.display.set_caption("Escape the tower - Niveau 1")
-            elif inMap2:
+                map = map1
+            if inMap2:
                 pygame.display.set_caption("Escape the tower - Niveau 2")
-            elif inMap3:
+                map = map2
+            if inMap3:
                 pygame.display.set_caption("Escape the tower - Niveau 3")
+                map = map3
 
             window.blit(background, (0, 0))
             drawMap(map, window, brick_o, brick_x, ladder, door)
@@ -131,6 +133,30 @@ def main():
                         if inIntro:
                             if has_enter:
                                 inIntro = False
+                                inLevelChoice = True
+                                player.reset_place()
+                                has_enter = False
+                            else:
+                                has_enter = True
+                        if inMap1:
+                            if has_enter:
+                                inMap1 = False
+                                inLevelChoice = True
+                                player.reset_place()
+                                has_enter = False
+                            else:
+                                has_enter = True
+                        if inMap2:
+                            if has_enter:
+                                inMap2 = False
+                                inLevelChoice = True
+                                player.reset_place()
+                                has_enter = False
+                            else:
+                                has_enter = True
+                        if inMap3:
+                            if has_enter:
+                                inMap3 = False
                                 inLevelChoice = True
                                 player.reset_place()
                                 has_enter = False

@@ -18,26 +18,30 @@ def main():
 
     inMenu = True
     inIntro = False
+    inLevelChoice = False
     has_enter = False
+    inMap1 = False
+    inMap2 = False
+    inMap3 = False
 
 
     player = Player()
 
     window.blit(background,(0,0))
 
-    map = loadMap("map.txt")
+    mapIntro = loadMap("mapIntro.txt")
+    map1 = []
+    map2 = []
+    map3 = []
 
     drawMap(map, window, brick_o, brick_x, ladder, door)
 
     i = 0
 
-    inMap1 = False
-    inMap2 = False
-    inMap3 = False
-
     while True:
 
         if inMenu:
+            pygame.display.set_caption("Escape the tower - Menu")
             window.blit(menu, (0, 0))
             window.blit(logo, (256, -40))
             window.blit(levels, (446, 480))
@@ -50,9 +54,45 @@ def main():
                     pos = pygame.mouse.get_pos()
                     if pos[0] >= 446 and pos[0] <= 834 and pos[1] >= 480 and pos[1] <= 626:
                         inMenu = False
+                        inLevelChoice = True
+
+        if inLevelChoice:
+            pygame.display.set_caption("Escape the tower - Choix du niveau")
+            window.blit(level_choice, (0, 0))
+            window.blit(intro, (256, 266))
+            window.blit(one, (226, 516))
+            window.blit(two, (576, 516))
+            window.blit(three, (926, 516))
+            pygame.display.update()
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                if event.type == pygame.MOUSEBUTTONUP:
+                    pos = pygame.mouse.get_pos()
+                    if pos[0] >= 256 and pos[0] <= 1024 and pos[1] >= 266 and pos[1] <= 394:
+                        inLevelChoice = False
                         inIntro = True
+                    elif pos[0] >= 226 and pos[0] <= 354 and pos[1] >= 516 and pos[1] <= 644:
+                        inLevelChoice = False
+                        inMap1 = True
+                    elif pos[0] >= 576 and pos[0] <= 704 and pos[1] >= 516 and pos[1] <= 644:
+                        inLevelChoice = False
+                        inMap2 = True
+                    elif pos[0] >= 926 and pos[0] <= 1054 and pos[1] >= 516 and pos[1] <= 644:
+                        inLevelChoice = False
+                        inMap3 = True
+
 
         if inIntro or inMap1 or inMap2 or inMap3:
+
+            if inIntro:
+                pygame.display.set_caption("Escape the tower - Introduction")
+            elif inMap1:
+                pygame.display.set_caption("Escape the tower - Niveau 1")
+            elif inMap2:
+                pygame.display.set_caption("Escape the tower - Niveau 2")
+            elif inMap3:
+                pygame.display.set_caption("Escape the tower - Niveau 3")
 
             window.blit(background, (0, 0))
             drawMap(map, window, brick_o, brick_x, ladder, door)
@@ -91,7 +131,7 @@ def main():
                         if inIntro:
                             if has_enter:
                                 inIntro = False
-                                inMenu = True
+                                inLevelChoice = True
                                 player.reset_place()
                                 has_enter = False
                             else:

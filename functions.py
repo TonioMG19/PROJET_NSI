@@ -10,7 +10,7 @@ def loadMap(file):
 
 
 
-def drawMap(file,window,brick_o,brick_x,ladder,door):
+def drawMap(file,window,brick_x,ladder,door,trappe,key, closed_trap):
     map = file
     for i in range(len(map)):
         for j in range(len(map[i])):
@@ -18,8 +18,23 @@ def drawMap(file,window,brick_o,brick_x,ladder,door):
                 window.blit(brick_x,(j*64,i*64))
             elif map[i][j] == 'o':
                 pass
-                #window.blit(brick_o,(j * 64, i * 64))
             elif map[i][j] == '#':
                 window.blit(ladder, (j * 64, i * 64))
             elif map[i][j] == 'p':
                 window.blit(door, (j * 64, i * 64))
+            elif map[i][j] == 't':
+                window.blit(trappe, (j * 64, i * 64))
+            elif map[i][j] == 'k':
+                window.blit(key, (j * 64, i * 64))
+            elif map[i][j] == 'c':
+                window.blit(closed_trap, (j * 64, i * 64))
+
+def open_trappe(map):
+    for i in range(len(map)):
+        for j in range(len(map[i])):
+            if map[i][j] == 'c':
+                map[i] = map[i][:j] + 't' + map[i][j+1:]
+
+def reset_map(map,default_map):
+    map = default_map
+    return map

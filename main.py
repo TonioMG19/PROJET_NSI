@@ -23,16 +23,23 @@ def main():
     inMap1 = False
     inMap2 = False
     inMap3 = False
+    floor = 1
 
 
     player = Player()
 
     window.blit(background,(0,0))
 
-    mapIntro = loadMap("mapIntro.txt")
+    mapIntro1 = loadMap("mapIntro-1.txt")
+    default_mapIntro1 = loadMap("mapIntro-1.txt")
+    mapIntro2 = loadMap("mapIntro-2.txt")
+    default_mapIntro2 = loadMap("mapIntro-2.txt")
     map1 = loadMap("map1.txt")
+    default_map1 = loadMap("map1.txt")
     map2 = loadMap("map2.txt")
+    default_map2 = loadMap("map2.txt")
     map3 = loadMap("map3.txt")
+    default_map3 = loadMap("map3.txt")
 
     i = 0
 
@@ -69,15 +76,19 @@ def main():
                     pos = pygame.mouse.get_pos()
                     if pos[0] >= 256 and pos[0] <= 1024 and pos[1] >= 266 and pos[1] <= 394:
                         inLevelChoice = False
+                        floor = 1
                         inIntro = True
                     elif pos[0] >= 226 and pos[0] <= 354 and pos[1] >= 516 and pos[1] <= 644:
                         inLevelChoice = False
+                        floor = 1
                         inMap1 = True
                     elif pos[0] >= 576 and pos[0] <= 704 and pos[1] >= 516 and pos[1] <= 644:
                         inLevelChoice = False
+                        floor = 1
                         inMap2 = True
                     elif pos[0] >= 926 and pos[0] <= 1054 and pos[1] >= 516 and pos[1] <= 644:
                         inLevelChoice = False
+                        floor = 1
                         inMap3 = True
 
 
@@ -85,7 +96,10 @@ def main():
 
             if inIntro:
                 pygame.display.set_caption("Escape the tower - Introduction")
-                map = mapIntro
+                if floor == 1:
+                    map = mapIntro1
+                elif floor == 2:
+                    map = mapIntro2
             if inMap1:
                 pygame.display.set_caption("Escape the tower - Niveau 1")
                 map = map1
@@ -97,7 +111,7 @@ def main():
                 map = map3
 
             window.blit(background, (0, 0))
-            drawMap(map, window, brick_o, brick_x, ladder, door)
+            drawMap(map, window, brick_x, ladder, door, trappe, key, closed_trap)
             window.blit(player.IMG, player.rect)
 
             if has_enter:
@@ -105,13 +119,19 @@ def main():
 
             pygame.display.update()
 
-            if(map[round((player.rect.y + 64) / 64)][round(player.rect.x/ 64)]) == 'o' and (i == 0 or i % 5 == 0) and (map[round((player.rect.y)/ 64)][round(player.rect.x/ 64)]) != '#':
-                i += 1
-                player.move_down(map)
-            elif (map[round((player.rect.y + 64) / 64)][round(player.rect.x / 64)]) == 'o':
-                i += 1
+            if player.rect.y < 896:
+                if(map[round((player.rect.y + 64) / 64)][round(player.rect.x/ 64)]) == 'o' and (i == 0 or i % 5 == 0) and (map[round((player.rect.y)/ 64)][round(player.rect.x/ 64)]) != '#' and (map[round((player.rect.y)/ 64)][round(player.rect.x/ 64)]) != 't':
+                    i += 1
+                    player.move_down(map)
+                elif (map[round((player.rect.y + 64) / 64)][round(player.rect.x / 64)]) == 'o':
+                    i += 1
             else:
                 i = 0
+
+            if map[round(player.rect.y / 64)][round(player.rect.x / 64)] == 'k':
+                player.has_key = True
+                open_trappe(map)
+                map[round(player.rect.y / 64)] = map[round(player.rect.y / 64)][:round(player.rect.x / 64)] + 'o' + map[round(player.rect.y / 64)][round(player.rect.x / 64)+1:]
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -129,40 +149,68 @@ def main():
                     elif event.key == pygame.K_INSERT:
                         player.rect.y = 128
                         player.rect.x = 256
-                    elif event.key == pygame.K_RETURN and map[round(player.rect.y / 64)][round(player.rect.x/ 64)] == 'p':
-                        if inIntro:
-                            if has_enter:
-                                inIntro = False
-                                inLevelChoice = True
-                                player.reset_place()
-                                has_enter = False
-                            else:
-                                has_enter = True
-                        if inMap1:
-                            if has_enter:
-                                inMap1 = False
-                                inLevelChoice = True
-                                player.reset_place()
-                                has_enter = False
-                            else:
-                                has_enter = True
-                        if inMap2:
-                            if has_enter:
-                                inMap2 = False
-                                inLevelChoice = True
-                                player.reset_place()
-                                has_enter = False
-                            else:
-                                has_enter = True
-                        if inMap3:
-                            if has_enter:
-                                inMap3 = False
-                                inLevelChoice = True
-                                player.reset_place()
-                                has_enter = False
-                            else:
-                                has_enter = True
-
+                    elif event.key == pygame.K_RETURN:
+                        if map[round(player.rect.y / 64)][round(player.rect.x / 64)] == 'p':
+                            if inIntro:
+                                if has_enter:
+                                    inIntro = False
+                                    inLevelChoice = True
+                                    player.reset()
+                                    mapIntro1 = reset_map(map, default_mapIntro1)
+                                    mapIntro2 = reset_map(map, default_mapIntro2)
+                                    has_enter = False
+                                else:
+                                    has_enter = True
+                            if inMap1:
+                                if has_enter:
+                                    inMap1 = False
+                                    inLevelChoice = True
+                                    player.reset()
+                                    reset_map(map, default_map1)
+                                    has_enter = False
+                                else:
+                                    has_enter = True
+                            if inMap2:
+                                if has_enter:
+                                    inMap2 = False
+                                    inLevelChoice = True
+                                    player.reset()
+                                    reset_map(map, default_map2)
+                                    has_enter = False
+                                else:
+                                    has_enter = True
+                            if inMap3:
+                                if has_enter:
+                                    inMap3 = False
+                                    inLevelChoice = True
+                                    player.reset()
+                                    reset_map(map, default_map3)
+                                    has_enter = False
+                                else:
+                                    has_enter = True
+                        if map[round(player.rect.y / 64)][round(player.rect.x / 64)] == 't':
+                            if round(player.rect.y / 64) == 0:
+                                if inIntro:
+                                    floor = 2
+                                    player.rect.y = 832
+                                if inMap1:
+                                    pass
+                                if inMap2:
+                                    pass
+                                if inMap3:
+                                    pass
+                                pass
+                            if round(player.rect.y / 64) == 14:
+                                if inIntro:
+                                    floor = 1
+                                    player.rect.y = 0
+                                if inMap1:
+                                    pass
+                                if inMap2:
+                                    pass
+                                if inMap3:
+                                    pass
+                                pass
 
 
 if __name__ == "__main__":

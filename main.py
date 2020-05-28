@@ -50,8 +50,10 @@ def main():
     default_map1_1 = loadMap("map1-1.txt")
     map1_2 = loadMap("map1-2.txt")
     default_map1_2 = loadMap("map1-2.txt")
-    map2 = loadMap("map2-1.txt")
-    default_map2 = loadMap("map2-1.txt")
+    map2_1 = loadMap("map2-1.txt")
+    default_map2_1 = loadMap("map2-1.txt")
+    map2_2 = loadMap("map2-2.txt")
+    default_map2_2 = loadMap("map2-2.txt")
     map3 = loadMap("map3.txt")
     default_map3 = loadMap("map3.txt")
 
@@ -149,7 +151,10 @@ def main():
                     map = map1_2
             if inMap2:
                 pygame.display.set_caption("Escape the tower - Niveau 2")
-                map = map2
+                if floor == 1:
+                    map = map2_1
+                elif floor == 2:
+                    map = map2_2
             if inMap3:
                 pygame.display.set_caption("Escape the tower - Niveau 3")
                 map = map3
@@ -193,7 +198,8 @@ def main():
                         mapIntro2 = reset_map(map, default_mapIntro2)
                         map1_1 = reset_map(map, default_map1_1)
                         map1_2 = reset_map(map, default_map1_2)
-                        map2 = reset_map(map, default_map2)
+                        map2_1 = reset_map(map, default_map2_1)
+                        map2_2 = reset_map(map, default_map2_2)
                         map3 = reset_map(map, default_map3)
                         player.reset()
                         inIntro = False
@@ -206,7 +212,8 @@ def main():
                         mapIntro2 = reset_map(map, default_mapIntro2)
                         map1_1 = reset_map(map, default_map1_1)
                         map1_2 = reset_map(map, default_map1_2)
-                        map2 = reset_map(map, default_map2)
+                        map2_1 = reset_map(map, default_map2_1)
+                        map2_2 = reset_map(map, default_map2_2)
                         map3 = reset_map(map, default_map3)
                         player.reset()
                 if event.type == pygame.KEYDOWN:
@@ -253,7 +260,8 @@ def main():
                                     inMap2 = False
                                     inLevelChoice = True
                                     player.reset()
-                                    map2 = reset_map(map, default_map2)
+                                    map2_1 = reset_map(map, default_map2_1)
+                                    map2_2 = reset_map(map, default_map2_2)
                                     status['map2'] = "Finish"
                                     saveAdvance(status)
                                     has_enter = False
@@ -279,7 +287,8 @@ def main():
                                     floor = 2
                                     player.rect.y = 832
                                 if inMap2:
-                                    pass
+                                    floor = 2
+                                    player.rect.y = 832
                                 if inMap3:
                                     pass
                                 pass
@@ -291,7 +300,8 @@ def main():
                                     floor = 1
                                     player.rect.y = 0
                                 if inMap2:
-                                    pass
+                                    floor = 1
+                                    player.rect.y = 0
                                 if inMap3:
                                     pass
                                 pass

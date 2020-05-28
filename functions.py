@@ -41,13 +41,11 @@ def reset_map(map,default_map):
 def loadAdvance():
     with open("status.json") as out_file:
         status = json.load(out_file)
-    print(status)
     return status
 
 def saveAdvance(status):
     with open("status.json", "w") as out_file:
         json.dump(status, out_file)
-    print("save")
     return 0
 
 

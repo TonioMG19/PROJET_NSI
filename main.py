@@ -1,3 +1,5 @@
+'''IMPORTATIONS'''
+
 import pygame
 import random
 import math
@@ -8,6 +10,8 @@ from functions import *
 from player import Player
 from images import *
 
+'''INITIALISATIONS'''
+
 pygame.init()
 pygame.font.init()
 
@@ -17,7 +21,11 @@ window = pygame.display.set_mode((1280, 960))
 pygame.display.set_caption("Escape the tower")
 pygame.display.set_icon(tower)
 
+'''FONCTION MAIN, DEROULEMENT DU JEU EN ENTIER'''
+
 def main():
+
+    '''INITIALISATIONS'''
 
     status = loadAdvance()
 
@@ -42,15 +50,18 @@ def main():
     default_map1_1 = loadMap("map1-1.txt")
     map1_2 = loadMap("map1-2.txt")
     default_map1_2 = loadMap("map1-2.txt")
-    map2 = loadMap("map2.txt")
-    default_map2 = loadMap("map2.txt")
+    map2 = loadMap("map2-1.txt")
+    default_map2 = loadMap("map2-1.txt")
     map3 = loadMap("map3.txt")
     default_map3 = loadMap("map3.txt")
 
     i = 0
 
+    '''BOUCHE TANT QUE LE JEU EST ACTIF'''
 
     while True:
+
+        '''MENU'''
 
         if inMenu:
             pygame.display.set_caption("Escape the tower - Menu")
@@ -67,6 +78,8 @@ def main():
                     if pos[0] >= 446 and pos[0] <= 834 and pos[1] >= 480 and pos[1] <= 626:
                         inMenu = False
                         inLevelChoice = True
+
+        '''CHOIX DU NIVEAU'''
 
         if inLevelChoice:
             if status['intro'] == "Finish":
@@ -101,11 +114,6 @@ def main():
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
-                if event.type == pygame.KEYDOWN and event.key == pygame.K_m:
-                    status['map1'] = "Finish"
-                    print(status['map1'])
-                    print(status)
-                    saveAdvance(status)
                 if event.type == pygame.MOUSEBUTTONUP:
                     pos = pygame.mouse.get_pos()
                     if pos[0] >= 256 and pos[0] <= 1024 and pos[1] >= 266 and pos[1] <= 394:
@@ -124,8 +132,8 @@ def main():
                         inLevelChoice = False
                         floor = 1
                         inMap3 = True
-
-
+        '''EN JEU'''
+        '''INITIALISATIONS'''
         if inIntro or inMap1 or inMap2 or inMap3:
             if inIntro:
                 pygame.display.set_caption("Escape the tower - Introduction")
@@ -157,18 +165,22 @@ def main():
 
             pygame.display.update()
 
+            '''CHUTE'''
+
             if map[round(player.rect.y / 64)][round(player.rect.x / 64)] == 'k':
                 open_trappe(map)
                 map[round(player.rect.y / 64)] = map[round(player.rect.y / 64)][:round(player.rect.x / 64)] + 'o' + map[round(player.rect.y / 64)][round(player.rect.x / 64)+1:]
 
             if player.rect.y < 896:
-                if(map[round((player.rect.y + 64) / 64)][round(player.rect.x/ 64)]) == 'o' and (i == 0 or i % 5 == 0) and (map[round((player.rect.y)/ 64)][round(player.rect.x/ 64)]) != '#' and (map[round((player.rect.y)/ 64)][round(player.rect.x/ 64)]) != 't':
+                if map[round((player.rect.y + 64) / 64)][round(player.rect.x/ 64)] == 'o' and (i == 0 or i % 5 == 0) and (map[round((player.rect.y)/ 64)][round(player.rect.x/ 64)]) != '#' and (map[round((player.rect.y)/ 64)][round(player.rect.x/ 64)]) != 't' or map[round((player.rect.y + 64) / 64)][round(player.rect.x/ 64)] == 'k':
                     i += 1
                     player.move_down(map)
                 elif (map[round((player.rect.y + 64) / 64)][round(player.rect.x / 64)]) == 'o':
                     i += 1
             else:
                 i = 0
+
+            '''EVENT'''
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -232,9 +244,7 @@ def main():
                                     map1_2 = reset_map(map, default_map1_2)
                                     status['map1'] = 'Finish'
                                     saveAdvance(status)
-                                    print("status")
-                                    print(status)
-                                    print("status")
+
                                     has_enter = False
                                 else:
                                     has_enter = True

@@ -1,4 +1,5 @@
 import pygame
+import json
 
 def loadMap(file):
     myListe = []
@@ -16,8 +17,6 @@ def drawMap(file,window,brick_x,ladder,door,trappe,key, closed_trap):
         for j in range(len(map[i])):
             if map[i][j] == 'x':
                 window.blit(brick_x,(j*64,i*64))
-            elif map[i][j] == 'o':
-                pass
             elif map[i][j] == '#':
                 window.blit(ladder, (j * 64, i * 64))
             elif map[i][j] == 'p':
@@ -38,3 +37,17 @@ def open_trappe(map):
 def reset_map(map,default_map):
     map = default_map
     return map
+
+def loadAdvance():
+    with open("status.json") as out_file:
+        status = json.load(out_file)
+    print(status)
+    return status
+
+def saveAdvance(status):
+    with open("status.json", "w") as out_file:
+        json.dump(status, out_file)
+    print("save")
+    return 0
+
+

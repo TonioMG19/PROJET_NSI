@@ -1,1 +1,1 @@
-{"intro": "Not", "map1": "Finish", "map2": "Not", "map3": "Finish"}
+{"intro": "Not", "map1": "Finish"}

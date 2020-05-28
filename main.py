@@ -11,18 +11,15 @@ from images import *
 pygame.init()
 pygame.font.init()
 
+myfont = pygame.font.SysFont('assets/Cunia.otf', 50)
+
 window = pygame.display.set_mode((1280, 960))
 pygame.display.set_caption("Escape the tower")
 pygame.display.set_icon(tower)
 
 def main():
 
-    status = {}
-    status["intro"] = "Not"
-    status["map1"] = "Finish"
-
-    with open("status.txt", "w") as outfile:
-        json.dump(status, outfile)
+    status = loadAdvance()
 
     inMenu = True
     inIntro = False
@@ -32,7 +29,6 @@ def main():
     inMap2 = False
     inMap3 = False
     floor = 1
-
 
     player = Player()
 
@@ -53,6 +49,7 @@ def main():
 
     i = 0
 
+
     while True:
 
         if inMenu:
@@ -72,16 +69,43 @@ def main():
                         inLevelChoice = True
 
         if inLevelChoice:
+            if status['intro'] == "Finish":
+                mapIntrostatus = myfont.render('Finished !', False, (0, 0, 0))
+            elif status['intro'] == "Not":
+                mapIntrostatus = myfont.render('Not finished', False, (0, 0, 0))
+            if status['map1'] == "Finish":
+                map1status = myfont.render('Finished !', False, (0, 0, 0))
+            elif status['map1'] == "Not":
+                map1status = myfont.render('Not finished', False, (0, 0, 0))
+            if status['map2'] == "Finish":
+                map2status = myfont.render('Finished !', False, (0, 0, 0))
+            elif status['map2'] == "Not":
+                map2status = myfont.render('Not finished', False, (0, 0, 0))
+            if status['map3'] == "Finish":
+                map3status = myfont.render('Finished !', False, (0, 0, 0))
+            elif status['map3'] == "Not":
+                map3status = myfont.render('Not finished', False, (0, 0, 0))
+
             pygame.display.set_caption("Escape the tower - Choix du niveau")
             window.blit(level_choice, (0, 0))
             window.blit(intro, (256, 266))
+            window.blit(mapIntrostatus, (546, 416))
             window.blit(one, (226, 516))
+            window.blit(map1status, (200,666))
             window.blit(two, (576, 516))
+            window.blit(map2status, (550, 666))
             window.blit(three, (926, 516))
+            window.blit(map3status, (900, 666))
+
             pygame.display.update()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_m:
+                    status['map1'] = "Finish"
+                    print(status['map1'])
+                    print(status)
+                    saveAdvance(status)
                 if event.type == pygame.MOUSEBUTTONUP:
                     pos = pygame.mouse.get_pos()
                     if pos[0] >= 256 and pos[0] <= 1024 and pos[1] >= 266 and pos[1] <= 394:
@@ -194,6 +218,8 @@ def main():
                                     player.reset()
                                     mapIntro1 = reset_map(map, default_mapIntro1)
                                     mapIntro2 = reset_map(map, default_mapIntro2)
+                                    status['intro'] = "Finish"
+                                    saveAdvance(status)
                                     has_enter = False
                                 else:
                                     has_enter = True
@@ -204,6 +230,11 @@ def main():
                                     player.reset()
                                     map1_1 = reset_map(map, default_map1_1)
                                     map1_2 = reset_map(map, default_map1_2)
+                                    status['map1'] = 'Finish'
+                                    saveAdvance(status)
+                                    print("status")
+                                    print(status)
+                                    print("status")
                                     has_enter = False
                                 else:
                                     has_enter = True
@@ -213,6 +244,8 @@ def main():
                                     inLevelChoice = True
                                     player.reset()
                                     map2 = reset_map(map, default_map2)
+                                    status['map2'] = "Finish"
+                                    saveAdvance(status)
                                     has_enter = False
                                 else:
                                     has_enter = True
@@ -222,6 +255,8 @@ def main():
                                     inLevelChoice = True
                                     player.reset()
                                     map3 = reset_map(map, default_map3)
+                                    status['map3'] = "Finish"
+                                    saveAdvance(status)
                                     has_enter = False
                                 else:
                                     has_enter = True

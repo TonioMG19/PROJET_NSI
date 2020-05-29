@@ -93,6 +93,7 @@ def main():
         '''CREDITS'''
 
         if inCredits:
+            pygame.display.set_caption("Escape the tower - Credits")
             window.blit(credits, (0, 0))
             window.blit(close, (0, 0))
             pygame.display.update()
@@ -169,31 +170,36 @@ def main():
         '''INITIALISATIONS'''
         if inIntro or inMap1 or inMap2 or inMap3:
             if inIntro:
-                pygame.display.set_caption("Escape the tower - Introduction")
                 if floor == 1:
                     map = mapIntro1
+                    pygame.display.set_caption("Escape the tower - Introduction - Etage 1")
                 elif floor == 2:
                     map = mapIntro2
+                    pygame.display.set_caption("Escape the tower - Introduction - Etage 2")
             if inMap1:
-                pygame.display.set_caption("Escape the tower - Niveau 1")
                 if floor == 1:
                     map = map1_1
+                    pygame.display.set_caption("Escape the tower - Niveau 1 - Etage 1")
                 elif floor == 2:
                     map = map1_2
+                    pygame.display.set_caption("Escape the tower - Niveau 1 - Etage 2")
             if inMap2:
-                pygame.display.set_caption("Escape the tower - Niveau 2")
                 if floor == 1:
                     map = map2_1
+                    pygame.display.set_caption("Escape the tower - Niveau 2 - Etage 1")
                 elif floor == 2:
                     map = map2_2
+                    pygame.display.set_caption("Escape the tower - Niveau 2 - Etage 2")
             if inMap3:
-                pygame.display.set_caption("Escape the tower - Niveau 3")
                 if floor == 1:
                     map = map3_1
+                    pygame.display.set_caption("Escape the tower - Niveau 3 - Etage 1")
                 elif floor == 2:
                     map = map3_2
+                    pygame.display.set_caption("Escape the tower - Niveau 3 - Etage 2")
                 elif floor == 3:
                     map = map3_3
+                    pygame.display.set_caption("Escape the tower - Niveau 3 - Etage 3")
 
 
             window.blit(background, (0, 0))

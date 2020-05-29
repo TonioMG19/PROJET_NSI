@@ -32,6 +32,7 @@ def main():
     inMenu = True
     inIntro = False
     inLevelChoice = False
+    inCredits = False
     has_enter = False
     inMap1 = False
     inMap2 = False
@@ -42,20 +43,24 @@ def main():
 
     window.blit(background,(0,0))
 
-    mapIntro1 = loadMap("mapIntro-1.txt")
-    default_mapIntro1 = loadMap("mapIntro-1.txt")
-    mapIntro2 = loadMap("mapIntro-2.txt")
-    default_mapIntro2 = loadMap("mapIntro-2.txt")
-    map1_1 = loadMap("map1-1.txt")
-    default_map1_1 = loadMap("map1-1.txt")
-    map1_2 = loadMap("map1-2.txt")
-    default_map1_2 = loadMap("map1-2.txt")
-    map2_1 = loadMap("map2-1.txt")
-    default_map2_1 = loadMap("map2-1.txt")
-    map2_2 = loadMap("map2-2.txt")
-    default_map2_2 = loadMap("map2-2.txt")
-    map3 = loadMap("map3.txt")
-    default_map3 = loadMap("map3.txt")
+    mapIntro1 = loadMap("maps/mapIntro-1.txt")
+    default_mapIntro1 = loadMap("maps/mapIntro-1.txt")
+    mapIntro2 = loadMap("maps/mapIntro-2.txt")
+    default_mapIntro2 = loadMap("maps/mapIntro-2.txt")
+    map1_1 = loadMap("maps/map1-1.txt")
+    default_map1_1 = loadMap("maps/map1-1.txt")
+    map1_2 = loadMap("maps/map1-2.txt")
+    default_map1_2 = loadMap("maps/map1-2.txt")
+    map2_1 = loadMap("maps/map2-1.txt")
+    default_map2_1 = loadMap("maps/map2-1.txt")
+    map2_2 = loadMap("maps/map2-2.txt")
+    default_map2_2 = loadMap("maps/map2-2.txt")
+    map3_1 = loadMap("maps/map3-1.txt")
+    default_map3_1 = loadMap("maps/map3-1.txt")
+    map3_2 = loadMap("maps/map3-2.txt")
+    default_map3_2 = loadMap("maps/map3-2.txt")
+    map3_3 = loadMap("maps/map3-3.txt")
+    default_map3_3 = loadMap("maps/map3-3.txt")
 
     i = 0
 
@@ -75,11 +80,32 @@ def main():
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
+                    quit()
                 elif event.type == pygame.MOUSEBUTTONUP:
                     pos = pygame.mouse.get_pos()
                     if pos[0] >= 446 and pos[0] <= 834 and pos[1] >= 480 and pos[1] <= 626:
                         inMenu = False
                         inLevelChoice = True
+                    if pos[0] >= 446 and pos[0] <= 834 and pos[1] >= 700 and pos[1] <= 846:
+                        inMenu = False
+                        inCredits = True
+
+        '''CREDITS'''
+
+        if inCredits:
+            window.blit(credits, (0, 0))
+            window.blit(close, (0, 0))
+            pygame.display.update()
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    quit()
+                if event.type == pygame.MOUSEBUTTONUP:
+                    pos = pygame.mouse.get_pos()
+                    if pos[0] >= 0 and pos[0] <= 64 and pos[1] >= 0 and pos[1] <= 64:
+                        inCredits = False
+                        inMenu = True
 
         '''CHOIX DU NIVEAU'''
 
@@ -111,13 +137,18 @@ def main():
             window.blit(map2status, (550, 666))
             window.blit(three, (926, 516))
             window.blit(map3status, (900, 666))
+            window.blit(close, (0,0))
 
             pygame.display.update()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
+                    quit()
                 if event.type == pygame.MOUSEBUTTONUP:
                     pos = pygame.mouse.get_pos()
+                    if pos[0] >= 0 and pos[0] <= 64 and pos[1] >= 0 and pos[1] <= 64:
+                        inLevelChoice = False
+                        inMenu = True
                     if pos[0] >= 256 and pos[0] <= 1024 and pos[1] >= 266 and pos[1] <= 394:
                         inLevelChoice = False
                         floor = 1
@@ -157,7 +188,13 @@ def main():
                     map = map2_2
             if inMap3:
                 pygame.display.set_caption("Escape the tower - Niveau 3")
-                map = map3
+                if floor == 1:
+                    map = map3_1
+                elif floor == 2:
+                    map = map3_2
+                elif floor == 3:
+                    map = map3_3
+
 
             window.blit(background, (0, 0))
             drawMap(map, window, brick_x, ladder, door, trappe, key, closed_trap)
@@ -190,6 +227,7 @@ def main():
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
+                    quit()
                     return
                 if event.type == pygame.MOUSEBUTTONUP:
                     pos = pygame.mouse.get_pos()
@@ -200,7 +238,9 @@ def main():
                         map1_2 = reset_map(map, default_map1_2)
                         map2_1 = reset_map(map, default_map2_1)
                         map2_2 = reset_map(map, default_map2_2)
-                        map3 = reset_map(map, default_map3)
+                        map3_1 = reset_map(map, default_map3_1)
+                        map3_2 = reset_map(map, default_map3_2)
+                        map3_3 = reset_map(map, default_map3_3)
                         player.reset()
                         inIntro = False
                         inMap1 = False
@@ -214,7 +254,9 @@ def main():
                         map1_2 = reset_map(map, default_map1_2)
                         map2_1 = reset_map(map, default_map2_1)
                         map2_2 = reset_map(map, default_map2_2)
-                        map3 = reset_map(map, default_map3)
+                        map3_1 = reset_map(map, default_map3_1)
+                        map3_2 = reset_map(map, default_map3_2)
+                        map3_3 = reset_map(map, default_map3_3)
                         player.reset()
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
@@ -272,7 +314,9 @@ def main():
                                     inMap3 = False
                                     inLevelChoice = True
                                     player.reset()
-                                    map3 = reset_map(map, default_map3)
+                                    map3_1 = reset_map(map, default_map3_1)
+                                    map3_2 = reset_map(map, default_map3_2)
+                                    map3_3 = reset_map(map, default_map3_3)
                                     status['map3'] = "Finish"
                                     saveAdvance(status)
                                     has_enter = False
@@ -290,8 +334,8 @@ def main():
                                     floor = 2
                                     player.rect.y = 832
                                 if inMap3:
-                                    pass
-                                pass
+                                    floor += 1
+                                    player.rect.y = 832
                             if round(player.rect.y / 64) == 14:
                                 if inIntro:
                                     floor = 1
@@ -303,8 +347,8 @@ def main():
                                     floor = 1
                                     player.rect.y = 0
                                 if inMap3:
-                                    pass
-                                pass
+                                    floor-=1
+                                    player.rect.y = 0
 
 
 if __name__ == "__main__":

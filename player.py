@@ -2,7 +2,6 @@ import pygame
 pygame.init()
 
 class Player(pygame.sprite.Sprite):
-
     IMG = pygame.image.load("assets/people.png")
 
     def __init__(self):

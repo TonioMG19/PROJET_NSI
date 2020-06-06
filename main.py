@@ -1,13 +1,6 @@
 '''IMPORTATIONS'''
-
-import pygame
-import random
-import math
-import os
-import time
-import json
 from functions import *
-from player import Player
+from player import *
 from images import *
 
 '''INITIALISATIONS'''
@@ -38,35 +31,31 @@ def main():
     inMap2 = False
     inMap3 = False
     floor = 1
+    reset = True
 
     player = Player()
 
     window.blit(background,(0,0))
 
-    mapIntro1 = loadMap("maps/mapIntro-1.txt")
-    default_mapIntro1 = loadMap("maps/mapIntro-1.txt")
-    mapIntro2 = loadMap("maps/mapIntro-2.txt")
-    default_mapIntro2 = loadMap("maps/mapIntro-2.txt")
-    map1_1 = loadMap("maps/map1-1.txt")
-    default_map1_1 = loadMap("maps/map1-1.txt")
-    map1_2 = loadMap("maps/map1-2.txt")
-    default_map1_2 = loadMap("maps/map1-2.txt")
-    map2_1 = loadMap("maps/map2-1.txt")
-    default_map2_1 = loadMap("maps/map2-1.txt")
-    map2_2 = loadMap("maps/map2-2.txt")
-    default_map2_2 = loadMap("maps/map2-2.txt")
-    map3_1 = loadMap("maps/map3-1.txt")
-    default_map3_1 = loadMap("maps/map3-1.txt")
-    map3_2 = loadMap("maps/map3-2.txt")
-    default_map3_2 = loadMap("maps/map3-2.txt")
-    map3_3 = loadMap("maps/map3-3.txt")
-    default_map3_3 = loadMap("maps/map3-3.txt")
 
     i = 0
 
     '''BOUCHE TANT QUE LE JEU EST ACTIF'''
 
     while True:
+
+        if reset:
+            mapIntro1 = loadMap("maps/mapIntro-1.txt")
+            mapIntro2 = loadMap("maps/mapIntro-2.txt")
+            map1_1 = loadMap("maps/map1-1.txt")
+            map1_2 = loadMap("maps/map1-2.txt")
+            map2_1 = loadMap("maps/map2-1.txt")
+            map2_2 = loadMap("maps/map2-2.txt")
+            map3_1 = loadMap("maps/map3-1.txt")
+            map3_2 = loadMap("maps/map3-2.txt")
+            map3_3 = loadMap("maps/map3-3.txt")
+
+        reset = False
 
         '''MENU'''
 
@@ -206,7 +195,7 @@ def main():
             drawMap(map, window, brick_x, ladder, door, trappe, key, closed_trap)
             window.blit(player.IMG, player.rect)
             window.blit(close, (0,0))
-            window.blit(reset,(96,0))
+            window.blit(redo,(96,0))
 
             if has_enter:
                 window.blit(won, (256, 234))
@@ -238,15 +227,7 @@ def main():
                 if event.type == pygame.MOUSEBUTTONUP:
                     pos = pygame.mouse.get_pos()
                     if pos[0] >= 0 and pos[0] <= 64 and pos[1] >= 0 and pos[1] <= 64:
-                        mapIntro1 = reset_map(map, default_mapIntro1)
-                        mapIntro2 = reset_map(map, default_mapIntro2)
-                        map1_1 = reset_map(map, default_map1_1)
-                        map1_2 = reset_map(map, default_map1_2)
-                        map2_1 = reset_map(map, default_map2_1)
-                        map2_2 = reset_map(map, default_map2_2)
-                        map3_1 = reset_map(map, default_map3_1)
-                        map3_2 = reset_map(map, default_map3_2)
-                        map3_3 = reset_map(map, default_map3_3)
+                        reset = True
                         player.reset()
                         inIntro = False
                         inMap1 = False
@@ -254,15 +235,7 @@ def main():
                         inMap3 = False
                         inLevelChoice = True
                     if pos[0] >= 96 and pos[0] <= 160 and pos[1] >= 0 and pos[1] <= 64:
-                        mapIntro1 = reset_map(map, default_mapIntro1)
-                        mapIntro2 = reset_map(map, default_mapIntro2)
-                        map1_1 = reset_map(map, default_map1_1)
-                        map1_2 = reset_map(map, default_map1_2)
-                        map2_1 = reset_map(map, default_map2_1)
-                        map2_2 = reset_map(map, default_map2_2)
-                        map3_1 = reset_map(map, default_map3_1)
-                        map3_2 = reset_map(map, default_map3_2)
-                        map3_3 = reset_map(map, default_map3_3)
+                        reset = True
                         player.reset()
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
@@ -283,8 +256,7 @@ def main():
                                     inIntro = False
                                     inLevelChoice = True
                                     player.reset()
-                                    mapIntro1 = reset_map(map, default_mapIntro1)
-                                    mapIntro2 = reset_map(map, default_mapIntro2)
+                                    reset = True
                                     status['intro'] = "Finish"
                                     saveAdvance(status)
                                     has_enter = False
@@ -295,8 +267,7 @@ def main():
                                     inMap1 = False
                                     inLevelChoice = True
                                     player.reset()
-                                    map1_1 = reset_map(map, default_map1_1)
-                                    map1_2 = reset_map(map, default_map1_2)
+                                    reset = True
                                     status['map1'] = 'Finish'
                                     saveAdvance(status)
 
@@ -308,8 +279,7 @@ def main():
                                     inMap2 = False
                                     inLevelChoice = True
                                     player.reset()
-                                    map2_1 = reset_map(map, default_map2_1)
-                                    map2_2 = reset_map(map, default_map2_2)
+                                    reset = True
                                     status['map2'] = "Finish"
                                     saveAdvance(status)
                                     has_enter = False
@@ -320,9 +290,7 @@ def main():
                                     inMap3 = False
                                     inLevelChoice = True
                                     player.reset()
-                                    map3_1 = reset_map(map, default_map3_1)
-                                    map3_2 = reset_map(map, default_map3_2)
-                                    map3_3 = reset_map(map, default_map3_3)
+                                    reset = True
                                     status['map3'] = "Finish"
                                     saveAdvance(status)
                                     has_enter = False

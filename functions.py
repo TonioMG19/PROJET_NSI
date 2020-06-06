@@ -34,10 +34,6 @@ def open_trappe(map):
             if map[i][j] == 'c':
                 map[i] = map[i][:j] + 't' + map[i][j+1:]
 
-def reset_map(map,default_map):
-    map = default_map
-    return map
-
 def loadAdvance():
     with open("status.json") as out_file:
         status = json.load(out_file)
